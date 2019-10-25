@@ -43,9 +43,6 @@ pt_list_pl =['tBe8vTtLNtsz','tc7e5MbL4C0T','trnH1KDqO8X_','tQXeOTewtAxn','th1oxd
           't80z50WvMRsa','t2vv-7SKe6pb','tdX4cf6bvDka','tVSSe7Q2P66Z','txwapiv7WqRz','tBL8LL3Amj5H','tenzhNpXLCqm','tTGfg7k0FJT8',
           'toTTR3Zswa4g','tkwQ4hQgYtkx','tE_JG_7OfMBJ','t8h6eCJUAzVZ','t1t3pRyJpsVE','tCi8FEq2TVYq']
 
-api=[]
-pt=[]
-v=[]    
 
 @app.route('/')
 def my_form():
@@ -107,6 +104,10 @@ def get_sc():
 
 @app.route('/run_data_pl', methods=['POST'])
 def run_data_pl():
+    api=[]
+    pt=[]
+    v=[]    
+
     mycursor.execute("CREATE TABLE IF NOT EXISTS input_data (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     for n in range(0,len(api_list)):
         params = {
@@ -126,7 +127,7 @@ def run_data_pl():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pl[n])
-    link= request.form['link']
+    link= request.form['link_pl']
     link1=link.split()
     link_len=len(link1)
     r_name= request.form['r_name']
@@ -287,6 +288,10 @@ def run_data_pl():
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route('/run_data_sc', methods=['POST'])
 def run_data_sc():
+    api=[]
+    pt=[]
+    v=[]    
+
     mycursor.execute("CREATE TABLE IF NOT EXISTS input_subcat1 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     for n in range(0,len(api_list)):
         params = {
@@ -306,7 +311,7 @@ def run_data_sc():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_sc[n])
-    link= request.form['link']
+    link= request.form['link_sc']
     link1=link.split()
     link_len=len(link1)
     r_name= request.form['r_name']
@@ -467,6 +472,10 @@ def run_data_sc():
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 @app.route('/run_data_bs', methods=['POST'])
 def run_data_bs():
+    api=[]
+    pt=[]
+    v=[]    
+
     mycursor.execute("CREATE TABLE IF NOT EXISTS input_bestseller (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     for n in range(0,len(api_list)):
         params = {
@@ -486,7 +495,7 @@ def run_data_bs():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_bs[n])
-    link= request.form['link']
+    link= request.form['link_bs']
     link1=link.split()
     link_len=len(link1)
     r_name= request.form['r_name']
@@ -647,6 +656,10 @@ def run_data_bs():
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route('/run_data_pp', methods=['POST'])
 def run_data_pp():
+    api=[]
+    pt=[]
+    v=[]    
+
     mycursor.execute("CREATE TABLE IF NOT EXISTS input_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     for n in range(0,len(api_list)):
         params = {
@@ -666,7 +679,7 @@ def run_data_pp():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pp[n])
-    link= request.form['link']
+    link= request.form['link_pp']
     link1=link.split()
     link_len=len(link1)
     r_name= request.form['r_name']
@@ -1237,6 +1250,7 @@ def get_data_pp():
     ip_url=[]
     run_token=[]
     api1=[]
+    v=[]
     run_token_sql=[]
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),brand_url VARCHAR(800),pn_mrp VARCHAR(50),pn_price VARCHAR(50),pn_you_save VARCHAR(75),ss_ASIN VARCHAR(50),ss_bsr VARCHAR(50),ss_dfa VARCHAR(50),seller_name VARCHAR(100),seller_rating VARCHAR(75),seller_review VARCHAR(75),description VARCHAR(900),p_rating VARCHAR(250),p_rev_count VARCHAR(100),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),img_count VARCHAR(25),img_url VARCHAR(800),a_prime VARCHAR(10),a_choise VARCHAR(50),offers VARCHAR(50),offers_from VARCHAR(200),catagory VARCHAR(500),key_pt VARCHAR(900),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
