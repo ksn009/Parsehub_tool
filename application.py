@@ -24,10 +24,11 @@ api_list=['t5QpzJ5WqUoE','tqfTT-tZebt0','t8yq90SEaHk9','tvOFW19xBdBz','tvct8117-
           'tH91mAar-nHP','twhXaTsgn49Z','tpwc8cPfTSLv','tqxv9bsXmEnM','ttkS859s2wku','ty4AjFWxmLXD','t6svuaX8kXSt','tvmzBHODR8-m',
           'tNLjeYj6XVLE','tTgnG2Be7wih','tv47dCOmiavk','tavQyKTnj42O','tiAgn1aY2jrz','tdMK7tV6_qZq','tG1eo8sNGmYP','tf7o_zyLPoYb',
           'tziC4p8x1BJE','tfShBYRKUpEY','ty_o6U-G6CRT','tb2z_mvTyfEH','t-f4O6OUqNS7','tY4VW1-gceYR']
-pt_list_pp =['tY6XObdw2Fuv','tPtLkvOujKPB','tJGhbgdXdqFT','t5vK3Me03t3E','t3A9Up-WDTb-','ttEtS7ztGWaG','t88TDtGrJy2M','tgTZHhUFYgO3',
-          'tTqqUs138R2q','tzYZzTtz0zeT','t74cHnXF7wre','tZBcBM8ku0uR','tArewbFLSOab','tx4vUvLJp8DA','t-y_hB_Q79hh','tS4GvqUXc3Kx',
-          't5vYOTaWStHg','tGGVTDmixcwx','tTac78QGyhHY','th1iPe_u7Lfh','txj5jf5TRgym','tE8t9Oc2cTtr','tFH9TqwSmU0u','tWT8Lg9Zrc6w',
-          'toTTR3Zswa4g','tAtVh1qKX5Xo','tE3bTVsvRgo5','tfNSWA8pTWkh','tWf9xpCVEP2T','tSDjVOLidzXS']
+pt_list_pp =['tVod50sgHR1G','tEOkkeiohWp7','tHqw2wfTx-04','t8D_pSgpTG4Y','t79kB_a4zd6m','thJTnuPpfZsU','tT3PcfeGdrBn',
+             'tPnM39aaC-nz','tTWFbiEo4yw3','t7v7F31s-ACt','t4Y2Nq26F-sE','tk-T22vtVckS','tOeETVP49LT-','tzsPHeUdJXf_',
+             'tz_hf2nMxCoB','tczkJPkCmdei','tiGuHPWFuKGK','tLzz2AChGTTC','tAv5UGNEt2G1','tJCpxUfoVTj2','trZ7eifV7dT1',
+             'tRPqGaDc_5wt','t2rCm07szXuq','tCrVVZSsDTSN','txq6xcCfpVOW','tXtzGnZs2jBJ','tR1raW8NEohe','txsXiva-b3RS',
+             'tbGVyHUTCF-w','tKYPQUXGWS9L']
 pt_list_bs =['tPhQMxEdN-0q', 'tm46hOvLdtas', 'tL7YYH5s6BRE', 'tKi-1Fi_wgLO', 'tujYvK3OcTYV', 'tiS225Tk4esu', 'tV_79t39t0Sh', 
           'trhqBqCPqJci', 'tdRyfdaq6Xrt', 'ti9BVWh0Kezq', 'tna-5T_DJjC8', 'tyHPMQrJqnPC', 'tyn0sTNJ1jF8', 'tPBob9et8teZ', 
           'tgdcDxKOXiqJ', 'tsj4MZRysrR2', 'tA1xwZQJrTFX', 'tOOwiqW9AQ-5', 'td_CxMT0Qv15', 'tPTHaojmsJrj', 't-ATyYSC-u1d', 
@@ -1225,43 +1226,24 @@ def get_data_bs():
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @app.route('/get_data_pp', methods=['POST'])
 def get_data_pp():
-    title =""
-    brand =""
-    brand_url =""
-    pn_mrp =""
-    pn_price =""
-    pn_you_save =""
-    ss_ASIN =""
-    ss_bsr =""
-    ss_dfa =""
-    seller_name =""
-    seller_rating =""
-    seller_review =""
-    description =""
-    p_rating =""
-    p_rev_count =""
-    img_count =""
-    img_url =""
-    a_prime =""
-    a_choise =""
-    offers =""
-    offers_from =""
-    catagory =""
     ip_url=[]
     run_token=[]
     api1=[]
+    page_not_found=[]
+    i_link=0
     v=[]
-    run_token_sql=[]
+    t_store=[]
     mycursor = mydb.cursor()
-    mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),brand_url VARCHAR(800),pn_mrp VARCHAR(50),pn_price VARCHAR(50),pn_you_save VARCHAR(75),ss_ASIN VARCHAR(50),ss_bsr VARCHAR(50),ss_dfa VARCHAR(50),seller_name VARCHAR(100),seller_rating VARCHAR(75),seller_review VARCHAR(75),description VARCHAR(900),p_rating VARCHAR(250),p_rev_count VARCHAR(100),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),img_count VARCHAR(25),img_url VARCHAR(800),a_prime VARCHAR(10),a_choise VARCHAR(50),offers VARCHAR(50),offers_from VARCHAR(200),catagory VARCHAR(500),key_pt VARCHAR(900),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
+    mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),p_rating VARCHAR(250),p_rev_count VARCHAR(100),pn_mrp VARCHAR(50), pn_price VARCHAR(50),pn_you_save VARCHAR(75),seller_name VARCHAR(100),img_count VARCHAR(25),keypt_count VARCHAR(25),description VARCHAR(900),ss_ASIN VARCHAR(50),ss_bsr VARCHAR(50),ss_bsr_cat VARCHAR(500),ss_dfa VARCHAR(50),a_prime VARCHAR(10),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
     r_name = request.form['runt_drop']
+    #r_name="test"
     sql = "SELECT DISTINCT runt FROM input_data_p3 WHERE run_name = %s"
     adr = (r_name,)
     mycursor.execute(sql, adr)
     ip_l = mycursor.fetchall()
     for t in ip_l:
         run_token.append(t[0])
-    sql = "SELECT DISTINCT link FROM input_data_p3 WHERE run_name = %s"
+    sql = "SELECT link FROM input_data_p3 WHERE run_name = %s"
     adr = (r_name,)
     mycursor.execute(sql, adr)
     ip_l = mycursor.fetchall()
@@ -1290,180 +1272,136 @@ def get_data_pp():
         for ap in range(0,len(api1)):
             params = {"api_key": api1[ap],"format": "json"}
             r = requests.get('https://www.parsehub.com/api/v2/runs/'+run_token[ap]+'/data', params=params)
-            y = json.loads(r.text)
+            t_store.append(r.text)
+    if len(store_var) == 0:
+        for ap in range(0,len(t_store)):                
+            y = json.loads(t_store[ap])
             for i in range(0,len(y['list1'])):
-                if 'bulk' in y['list1'][i]:
-                    d=y['list1'][i]['bulk'].split('\n')
-                    for n in range(0,len(d)):
-                        if 'Best Sellerin' in d[n]:
-                            n1=(d[n].split('Best Sellerin'))
-                            ss_bsr = n1[0]
-                            catagory = n1[1]
-                            break
-                        else:
-                            ss_bsr = ""
-                            catagory = ""
-                    for n in range(0,len(d)):
-                        if 'Sold by' in d[n]:
-                            z=d[n].split('(')
-                            z=z[0].split('Sold by ')
-                            seller_name=z[1]
-                            '''
-                            if 'out of 5 ' in d[n]:
-                                z=d[n].split('(')
-                                z=z[1].split('|')
-                                #print("S_Rating :",z[0])
-                                seller_rating=z[0]
-                                z=z[1].split(')')
-                                z=z[0].split()
-                                #print("S_Total Rating",z[0])
-                                seller_review=z[0]
-                            elif 'out of 5 stars' in d[n]:
-                                #z=d[n].split('(')
-                                #z=z[len(z)-1].split("| ")
-                                #print("S_Rating :",z[0])
-                                #seller_rating=z[0]
-                                #z=z[1].split()
-                                #print("S_Total Rating",z[0])
-                                #seller_review=z[0]
-                                continue
-                            '''
-                            break
-                        else:
-                            seller_name=""
-                            seller_rating=""
-                            seller_review=""
-                    for n in range(0,len(d)):
-                        if 'Fulfilled by Amazon' in d[n]:
-                            a_prime="Yes"
-                            break
-                        else:
-                            a_prime="No"
-                    for n in range(0,len(d)):
-                        if 'Choice' in d[n]:
-                            z=d[n+1].split('"')
-                            a_choise=z[1]
-                            break
-                        else:
-                            a_choise=""
-                    for n in range(0,len(d)):
-                        if 'offers' in d[n]:
-                            t=d[n].split()
-                            offers=t[0]
-                            break
-                        else:
-                            offers=""
-                    for n in range(0,len(d)):
-                        if 'offers' in d[n]:
-                            t=d[n].split()
-                            offers_from=t[len(t)-1]
-                            break
-                        else:
-                            offers_from=""
-                    for n in range(0,len(d)):
-                        if 'out of' in d[n]:
-                            if 'Sold by' in d[n]:
-                                break
-                            else:
-                                p_rating=d[n]
-                            break
-                        else:
-                            p_rating=""
-                    for n in range(0,len(d)):
-                        if 'customer reviews' in d[n]:
-                            z=d[n].split()
-                            p_rev_count=z[0]
-                            break
-                        else:
-                            p_rev_count=""
-                    for n in range(0,len(d)):
-                        if 'offer' in d[n] or 'offers' in d[n]:
-                            ky=""
-                            for t in range(n+1,len(d)):
-                                ky=ky+d[t]
-                            key=ky
-                            break
-                        else:
-                            key=""
                 if 'title' in y["list1"][i]:
                     title=y["list1"][i]["title"]
                 else:
                     title=""
-                if 'brand' in y["list1"][i]:
-                    brand=y["list1"][i]['brand']
+                if 'brand_name' in y["list1"][i]:
+                    brand=y["list1"][i]['brand_name']
                 else:
                     brand=""
-                if 'brand_url' in y["list1"][i]:
-                    brand_url= y["list1"][i]['brand_url']
+                if 'rating' in y["list1"][i]:
+                    p_rating = y["list1"][i]["rating"]
                 else:
-                    brand_url=""
-                if "price_note" in (y["list1"][i]):
+                    p_rating=""
+                if 'rating_count' in y["list1"][i]:
+                    rating_count = y["list1"][i]["rating_count"]
+                else:
+                    rating_count=""
+                if "pricetag" in y["list1"][i]:
                     pn_mrp=""
                     pn_price=""
                     pn_you_save=""
-                    for np in range (0,len(y["list1"][i]["price_note"])):
-                        if "M.R.P" in (y["list1"][i]["price_note"][np]["name"]):
-                            pn_mrp = str(y["list1"][i]["price_note"][np]["price"]) 
-                        if "You Save" in (y["list1"][i]["price_note"][np]["name"]):
-                            pn_you_save=str(y["list1"][i]["price_note"][np]["price"])
-                        if "Price" in (y["list1"][i]["price_note"][np]["name"]):
-                            pn_price=str(y["list1"][i]["price_note"][np]["price"])
-                if "selection2" in (y["list1"][i]):
-                    for ns in range(0,len(y["list1"][i]["selection2"])):
-                        if "ASIN" ==(y["list1"][i]["selection2"][ns]["name"]):
-                            ss_ASIN = y["list1"][i]["selection2"][ns]["product_information"]
-                        elif "Amazon Bestsellers Rank" ==(y["list1"][i]["selection2"][ns]["name"]):
-                            ss_bsr = y["list1"][i]["selection2"][ns]["product_information"]
-                            catagory=ss_bsr=ss_bsr.split("in ")
-                            ss_bsr=ss_bsr[0]
-                            catagory=catagory[1]
-                            catagory=catagory.split('(')
-                            catagory=catagory[0]
-                        elif "Date First Available" ==(y["list1"][i]["selection2"][ns]["name"]):
-                            ss_dfa = y["list1"][i]["selection2"][ns]["product_information"]
+                    for np in range (0,len(y["list1"][i]["pricetag"])):
+                        if "M.R.P" in (y["list1"][i]["pricetag"][np]["name"]):
+                            pn_mrp = str(y["list1"][i]["pricetag"][np]["price"]) 
+                        if "You Save" in (y["list1"][i]["pricetag"][np]["name"]):
+                            pn_you_save=str(y["list1"][i]["pricetag"][np]["price"])
+                        if "Price" in (y["list1"][i]["pricetag"][np]["name"]):
+                            pn_price=str(y["list1"][i]["pricetag"][np]["price"])
+                if 'buy_box' in y["list1"][i]:
+                    buy_box = y["list1"][i]["buy_box"]
                 else:
-                    ss_ASIN = ""
-                    ss_bsr = ""
-                    ss_dfa = ""
-                if 'rating_stars' in y["list1"][i]:
-                    rating_len=len(y["list1"][i]["rating_stars"])
-                    rating = ["","","","",""]
-                    for nn in range (0,rating_len):
-                        if '5 star' in y["list1"][i]["rating_stars"][nn]["name"]:
-                            rating[4] = (y["list1"][i]["rating_stars"][nn]["Rating_ration"])
-                        elif '4 star' in y["list1"][i]["rating_stars"][nn]["name"]:
-                            rating[3] = (y["list1"][i]["rating_stars"][nn]["Rating_ration"])
-                        elif '3 star' in y["list1"][i]["rating_stars"][nn]["name"]:
-                            rating[2] = (y["list1"][i]["rating_stars"][nn]["Rating_ration"])
-                        elif '2 star' in y["list1"][i]["rating_stars"][nn]["name"]:
-                            rating[1] = (y["list1"][i]["rating_stars"][nn]["Rating_ration"])
-                        elif '1 star' in y["list1"][i]["rating_stars"][nn]["name"]:
-                            rating[0] = (y["list1"][i]["rating_stars"][nn]["Rating_ration"])
-                        else:
-                            continue
+                    buy_box=""
+                if "images" in (y["list1"][i]):
+                    img_count = str(len(y["list1"][i]["images"]))
                 else:
-                    rating = ["","","","",""]
+                    img_count = "0"
+                if "keypoints" in (y["list1"][i]):
+                    keypoints_count = str(len(y["list1"][i]["keypoints"]))
+                else:
+                    keypoints_count = ""
                 if "description" in (y["list1"][i]):
                     description = (y["list1"][i]["description"])
                 else:
                     description = ""
-                if "imagecount" in (y["list1"][i]):
-                    img_count = str(len(y["list1"][i]["imagecount"]))
+                if "prime" in (y["list1"][i]):
+                    a_prime = "Yes"
                 else:
-                    img_count = ""
-                if 'image' in y["list1"][i]:
-                    img_url = y["list1"][i]["image"]
+                    a_prime = "No"
+                if "details4" in (y["list1"][i]):
+                    ss_ASIN = ""
+                    ss_bsr = ""
+                    ss_dfa = ""
+                    catagory=""
+                    for ns in range(0,len(y["list1"][i]["details4"])):
+                        if "ASIN" in (y["list1"][i]["details4"][ns]["name"]):
+                            ss_ASIN = y["list1"][i]["details4"][ns]["name"]
+                            ss_ASIN = ss_ASIN.split('ASIN')
+                            if ': ' in ss_ASIN[1]:                
+                                ss_ASIN = ss_ASIN[1].split(': ')
+                                ss_ASIN = ss_ASIN[1]
+                            else:
+                                ss_ASIN=""
+                        elif "Amazon Bestsellers Rank" in (y["list1"][i]["details4"][ns]["name"]):
+                            ss_bsr = y["list1"][i]["details4"][ns]["name"]
+                            catagory=ss_bsr=ss_bsr.split(":")
+                            ss_bsr=ss_bsr[1]
+                            catagory=ss_bsr[1]
+                        elif "Date First Available" in (y["list1"][i]["details4"][ns]["name"]):
+                            ss_dfa = y["list1"][i]["details4"][ns]["name"]
+                            ss_dfa = ss_dfa.split(': ')
+                            ss_dfa = ss_dfa[1]
                 else:
-                    img_url=""
-                for nn in range (0,len(y['list1'])):
-                        run_token_sql.append(run_token[ap])
-                v.append((title ,brand ,brand_url ,pn_mrp ,pn_price ,pn_you_save ,ss_ASIN ,ss_bsr ,ss_dfa ,seller_name ,seller_rating ,seller_review ,description ,p_rating ,p_rev_count ,rating[0],rating[1],rating[2],rating[3],rating[4],img_count,img_url ,a_prime ,a_choise ,offers ,offers_from ,catagory ,key , ip_url[i] , run_token_sql[i], r_name))
+                    ss_ASIN = ""
+                    ss_bsr = ""
+                    ss_dfa = ""
+                    catagory=""
+                if 'stars' in y["list1"][i]:
+                    rating_len=len(y["list1"][i]["stars"])
+                    rating = ["","","","",""]
+                    for nn in range (0,rating_len):
+                        if '5 star' in y["list1"][i]["stars"][nn]["name"]:
+                            rating[4] = (y["list1"][i]["stars"][nn]["stars_split"])
+                        elif '4 star' in y["list1"][i]["stars"][nn]["name"]:
+                            rating[3] = (y["list1"][i]["stars"][nn]["stars_split"])
+                        elif '3 star' in y["list1"][i]["stars"][nn]["name"]:
+                            rating[2] = (y["list1"][i]["stars"][nn]["stars_split"])
+                        elif '2 star' in y["list1"][i]["stars"][nn]["name"]:
+                            rating[1] = (y["list1"][i]["stars"][nn]["stars_split"])
+                        elif '1 star' in y["list1"][i]["stars"][nn]["name"]:
+                            rating[0] = (y["list1"][i]["stars"][nn]["stars_split"])
+                        else:
+                            continue
+                else:
+                    rating = ["","","","",""]
+                    
+                if title !="" :
+                    v=[]
+                    v.append((title ,brand ,p_rating ,rating_count ,pn_mrp ,pn_price ,pn_you_save ,buy_box ,img_count ,keypoints_count ,description ,ss_ASIN ,ss_bsr ,catagory ,ss_dfa ,a_prime ,rating[0],rating[1],rating[2],rating[3],rating[4], ip_url[i_link] , run_token[ap], r_name))
+                    sql = "INSERT INTO scrap_data_p3 (title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url ,run_token ,run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    mycursor.executemany(sql, v)
+                    mydb.commit()
+                else:
+                    page_not_found.append(y["list1"][i]['page'])
+
+                i_link=i_link+1
+                
+        if len(page_not_found) != 0:
+            return "No missing data found All Data Written to DB successfully"
+        else:
+            y=""
+            for i in page_not_found:
+                y= y+str(i) +"</br>"
+            return y
+
+        '''sql = "SELECT title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url FROM scrap_data_p3 WHERE run_name LIKE '%"+r_name+"%'"
+        adr = (r_name,)
+        mycursor.execute(sql)
+        store_var = mycursor.fetchall()
+        for t in store_var:
+            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12],t[13],t[14],t[15],t[16],t[17],t[18],t[19],t[20],t[21]))
         def generate():
             data = StringIO()
             w = csv.writer(data)
-            w.writerow(("Title","Brand","Brand_URL","MRP","Price","you_save","ASIN","bsr","dfa","seller_name","seller_rating",
-                        "seller_review","description","product_rating","product_rev_count","1_star","2_star","3_star","4_star","5_star",
-                        "img_count","img_url","a_prime","a_choise","offers","offers_from","catagory","key"," ip_url"))
+            w.writerow(('Title','Brand','Rating','Rating_count','MRP','Price','Discount','Buy_box','Image_count','Keypoints_count',
+                        'Description','ASIN','Bsr_rank','Bsr_cat','Date_First_Available','Prime','1_star','2_star','3_star','4_star',
+                        '5_star',"Ip_url"))
             yield data.getvalue()
             data.seek(0)
             data.truncate(0)
@@ -1471,31 +1409,27 @@ def get_data_pp():
                 w.writerow((
                     item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8],
                     item[9],item[10],item[11],item[12],item[13],item[14],item[15],item[16],
-                    item[17],item[18],item[19],item[20],item[21],item[22],item[23],item[24],
-                    item[25],item[26],item[27],item[28],item[29]
+                    item[17],item[18],item[19],item[20],item[21]
                     ))
                 yield data.getvalue()
                 data.seek(0)
                 data.truncate(0)
         response = Response(generate(), mimetype='text/csv')
-        sql = "INSERT INTO scrap_data_p3 (title ,brand ,brand_url ,pn_mrp ,pn_price ,pn_you_save ,ss_ASIN ,ss_bsr ,ss_dfa ,seller_name ,seller_rating ,seller_review ,description ,p_rating ,p_rev_count ,1_star,2_star,3_star,4_star,5_star ,img_count ,img_url ,a_prime ,a_choise ,offers ,offers_from ,catagory ,key_pt , ip_url , run_token, run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        mycursor.executemany(sql, v)
-        mydb.commit()
         response.headers.set("Content-Disposition", "attachment", filename=now1)
-        return response
+        return response'''
     else:
-        sql = "SELECT title ,brand ,brand_url ,pn_mrp ,pn_price ,pn_you_save ,ss_ASIN ,ss_bsr ,ss_dfa ,seller_name ,seller_rating ,seller_review ,description ,p_rating ,p_rev_count ,1_star,2_star,3_star,4_star,5_star ,img_count ,img_url ,a_prime ,a_choise ,offers ,offers_from ,catagory ,key_pt , ip_url FROM scrap_data_p3 WHERE run_name LIKE '%"+r_name+"%'"
+        sql = "SELECT title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url FROM scrap_data_p3 WHERE run_name LIKE '%"+r_name+"%'"
         adr = (r_name,)
         mycursor.execute(sql)
         store_var = mycursor.fetchall()
         for t in store_var:
-            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12],t[13],t[14],t[15],t[16],t[17],t[18],t[19],t[20],t[21],t[22],t[23],t[24],t[25],t[26],t[27],t[28]))
+            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12],t[13],t[14],t[15],t[16],t[17],t[18],t[19],t[20],t[21]))
         def generate():
             data = StringIO()
             w = csv.writer(data)
-            w.writerow(("Title","Brand","Brand_URL","MRP","Price","you_save","ASIN","bsr","dfa","seller_name","seller_rating",
-                        "seller_review","description","product_rating","product_rev_count","1_star","2_star","3_star","4_star","5_star",
-                        "img_count","img_url","a_prime","a_choise","offers","offers_from","catagory","key_pt"," ip_url"))
+            w.writerow(('Title','Brand','Rating','Rating_count','MRP','Price','Discount','Buy_box','Image_count','Keypoints_count',
+                        'Description','ASIN','Bsr_rank','Bsr_cat','Date_First_Available','Prime','1_star','2_star','3_star','4_star',
+                        '5_star',"Ip_url"))
             yield data.getvalue()
             data.seek(0)
             data.truncate(0)
@@ -1503,8 +1437,7 @@ def get_data_pp():
                 w.writerow((
                     item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8],
                     item[9],item[10],item[11],item[12],item[13],item[14],item[15],item[16],
-                    item[17],item[18],item[19],item[20],item[21],item[22],item[23],item[24],
-                    item[25],item[26],item[27],item[28]
+                    item[17],item[18],item[19],item[20],item[21]
                     ))
                 yield data.getvalue()
                 data.seek(0)
