@@ -1232,6 +1232,10 @@ def get_data_pp():
     page_not_found=[]
     i_link=0
     v=[]
+    pn_mrp=""
+    pn_price=""
+    pn_you_save=""
+
     t_store=[]
     mycursor = mydb.cursor()
     mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),p_rating VARCHAR(250),p_rev_count VARCHAR(100),pn_mrp VARCHAR(50), pn_price VARCHAR(50),pn_you_save VARCHAR(75),seller_name VARCHAR(100),img_count VARCHAR(25),keypt_count VARCHAR(25),description VARCHAR(900),ss_ASIN VARCHAR(50),ss_bsr VARCHAR(50),ss_bsr_cat VARCHAR(500),ss_dfa VARCHAR(50),a_prime VARCHAR(10),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
@@ -1280,6 +1284,7 @@ def get_data_pp():
                 if 'title' in y["list1"][i]:
                     title=y["list1"][i]["title"]
                 else:
+                    page_not_found.append(y["list1"][i]['page'])
                     title=""
                 if 'brand_name' in y["list1"][i]:
                     brand=y["list1"][i]['brand_name']
@@ -1377,12 +1382,10 @@ def get_data_pp():
                     sql = "INSERT INTO scrap_data_p3 (title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url ,run_token ,run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     mycursor.executemany(sql, v)
                     mydb.commit()
-                else:
-                    page_not_found.append(y["list1"][i]['page'])
 
                 i_link=i_link+1
                 
-        if len(page_not_found) != 0:
+        if len(page_not_found) == 0:
             return "No missing data found All Data Written to DB successfully"
         else:
             y=""
