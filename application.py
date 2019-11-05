@@ -109,16 +109,6 @@ def run_data_pl():
     api=[]
     pt=[]
     v=[]    
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     link= request.form['link_pl']
     link1=link.split()
     link_len=len(link1)
@@ -126,8 +116,8 @@ def run_data_pl():
         if link_len < 199:
             api_sel= 1
             api_r = 0
-        elif link_len > max_link:
-            api_sel=len(api)
+        elif link_len > 5970:
+            api_sel=30
             api_r=0
         else:
             api_sel = int(link_len/199)
@@ -135,7 +125,7 @@ def run_data_pl():
                 api_r = 1
             else:
                 api_r = 0
-    
+    ft=api_sel+api_r
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -154,8 +144,18 @@ def run_data_pl():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pl[n])
-        if len(api) == (api_sel+api_r):
+        if len(api) == (ft):
             break
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
     
     r_name= request.form['r_name']
     if r_name == "":
@@ -310,16 +310,6 @@ def run_data_sc():
     api=[]
     pt=[]
     v=[]    
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     link= request.form['link_sc']
     link1=link.split()
     link_len=len(link1)
@@ -327,8 +317,8 @@ def run_data_sc():
         if link_len < 199:
             api_sel= 1
             api_r = 0
-        elif link_len > max_link:
-            api_sel=len(api)
+        elif link_len > 5970:
+            api_sel=30
             api_r=0
         else:
             api_sel = int(link_len/199)
@@ -336,6 +326,7 @@ def run_data_sc():
                 api_r = 1
             else:
                 api_r = 0
+    ft=api_sel+api_r
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -354,8 +345,18 @@ def run_data_sc():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_sc[n])
-        if len(api) == (api_sel+api_r):
+        if len(api) == (ft):
             break
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
@@ -511,29 +512,20 @@ def run_data_bs():
     link= request.form['link_bs']
     link1=link.split()
     link_len=len(link1)
-    max_link = len(api)*99
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links99=[]
-    h=0    
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     if link_len != 0:
-        if link_len < 199:
+        if link_len < 99:
             api_sel= 1
             api_r = 0
-        elif link_len > max_link:
-            api_sel=len(api)
+        elif link_len > 2970:
+            api_sel=30
             api_r=0
         else:
-            api_sel = int(link_len/199)
-            if link_len%199 != 0:
+            api_sel = int(link_len/99)
+            if link_len%99 != 0:
                 api_r = 1
             else:
                 api_r = 0
+    ft=api_sel+api_r
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -552,8 +544,18 @@ def run_data_bs():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_bs[n])
-        if len(api) == (api_sel+api_r):
+        if len(api) == (ft):
             break
+    max_link = len(api)*99
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links99=[]
+    h=0    
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
@@ -709,30 +711,18 @@ def run_data_pp():
     link= request.form['link_pp']
     link1=link.split()
     link_len=len(link1)
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
 
-    if link_len != 0:
-        if link_len < 199:
-            api_sel= 1
-            api_r = 0
-        elif link_len > max_link:
-            api_sel=len(api)
-            api_r=0
+    if link_len < 199:
+        ft= 1
+    elif link_len >5970 :
+        ft=31
+    else:
+        apl = int(link_len/199)
+        if link_len%199 != 0:
+            apr = 1
         else:
-            api_sel = int(link_len/199)
-            if link_len%199 != 0:
-                api_r = 1
-            else:
-                api_r = 0
+            apr = 0
+        ft=apl+apr
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -751,11 +741,23 @@ def run_data_pp():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pp[n])
-        if len(api) == (api_sel+api_r):
+        alen=len(api)
+        if alen == (ft):
             break
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
+
     if link_len != 0:
         if link_len < 199:
             api_sel= 1
