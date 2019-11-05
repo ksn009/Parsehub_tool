@@ -905,6 +905,9 @@ def get_data_pl():
         p_len=len(p_name)        
         for i in range(0,p_len):
             v.append((p_name[i],p_url[i],run_token_sql[i],ip_link[i],r_name))
+            sql = "INSERT INTO scrap_data (product_name,product_url,runt,ip_link,run_name) VALUES (%s, %s, %s, %s, %s)"
+            mycursor.execute(sql, v[i])
+            mydb.commit()
         def generate():
             data = StringIO()
             w = csv.writer(data)
@@ -922,9 +925,6 @@ def get_data_pl():
                 data.seek(0)
                 data.truncate(0)
         response = Response(generate(), mimetype='text/csv')
-        sql = "INSERT INTO scrap_data (product_name,product_url,runt,ip_link,run_name) VALUES (%s, %s, %s, %s, %s)"
-        mycursor.executemany(sql, v)
-        mydb.commit()
         response.headers.set("Content-Disposition", "attachment", filename=now1)
         return response
     else:
