@@ -105,11 +105,37 @@ def get_sc():
 
 @app.route('/run_data_pl', methods=['POST'])
 def run_data_pl():
+    mycursor.execute("CREATE TABLE IF NOT EXISTS input_data (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     api=[]
     pt=[]
     v=[]    
-
-    mycursor.execute("CREATE TABLE IF NOT EXISTS input_data (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
+    link= request.form['link_pl']
+    link1=link.split()
+    link_len=len(link1)
+    if link_len != 0:
+        if link_len < 199:
+            api_sel= 1
+            api_r = 0
+        elif link_len > max_link:
+            api_sel=len(api)
+            api_r=0
+        else:
+            api_sel = int(link_len/199)
+            if link_len%199 != 0:
+                api_r = 1
+            else:
+                api_r = 0
+    
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -128,22 +154,12 @@ def run_data_pl():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pl[n])
-    link= request.form['link_pl']
-    link1=link.split()
-    link_len=len(link1)
+        if len(api) == (api_sel+api_r):
+            break
+    
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     if link_len != 0:
         if link_len < 199:
             api_sel= 1
@@ -289,11 +305,37 @@ def run_data_pl():
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route('/run_data_sc', methods=['POST'])
 def run_data_sc():
+    mycursor.execute("CREATE TABLE IF NOT EXISTS input_subcat1 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
+
     api=[]
     pt=[]
     v=[]    
-
-    mycursor.execute("CREATE TABLE IF NOT EXISTS input_subcat1 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
+    link= request.form['link_sc']
+    link1=link.split()
+    link_len=len(link1)
+    if link_len != 0:
+        if link_len < 199:
+            api_sel= 1
+            api_r = 0
+        elif link_len > max_link:
+            api_sel=len(api)
+            api_r=0
+        else:
+            api_sel = int(link_len/199)
+            if link_len%199 != 0:
+                api_r = 1
+            else:
+                api_r = 0
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -312,22 +354,11 @@ def run_data_sc():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_sc[n])
-    link= request.form['link_sc']
-    link1=link.split()
-    link_len=len(link1)
+        if len(api) == (api_sel+api_r):
+            break
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     if link_len != 0:
         if link_len < 199:
             api_sel= 1
@@ -473,11 +504,36 @@ def run_data_sc():
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
 @app.route('/run_data_bs', methods=['POST'])
 def run_data_bs():
+    mycursor.execute("CREATE TABLE IF NOT EXISTS input_bestseller (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     api=[]
     pt=[]
     v=[]    
-
-    mycursor.execute("CREATE TABLE IF NOT EXISTS input_bestseller (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
+    link= request.form['link_bs']
+    link1=link.split()
+    link_len=len(link1)
+    max_link = len(api)*99
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links99=[]
+    h=0    
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
+    if link_len != 0:
+        if link_len < 199:
+            api_sel= 1
+            api_r = 0
+        elif link_len > max_link:
+            api_sel=len(api)
+            api_r=0
+        else:
+            api_sel = int(link_len/199)
+            if link_len%199 != 0:
+                api_r = 1
+            else:
+                api_r = 0
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -496,22 +552,11 @@ def run_data_bs():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_bs[n])
-    link= request.form['link_bs']
-    link1=link.split()
-    link_len=len(link1)
+        if len(api) == (api_sel+api_r):
+            break
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
-    max_link = len(api)*99
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links99=[]
-    h=0    
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     if link_len != 0:
         if link_len < 99:
             api_sel= 1
@@ -657,11 +702,37 @@ def run_data_bs():
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route('/run_data_pp', methods=['POST'])
 def run_data_pp():
+    mycursor.execute("CREATE TABLE IF NOT EXISTS input_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
     api=[]
     pt=[]
     v=[]    
+    link= request.form['link_pp']
+    link1=link.split()
+    link_len=len(link1)
+    max_link = len(api)*199
+    un_processing_link_numb=0
+    processing_link=[]
+    un_processing_link=[]
+    links199=[]
+    h=0
+    run_tok=""
+    res=""
+    link_temp=""
+    j="\",\""
 
-    mycursor.execute("CREATE TABLE IF NOT EXISTS input_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, api VARCHAR(25), pt VARCHAR(25), link VARCHAR(255), runt VARCHAR(25), run_name VARCHAR(25))")
+    if link_len != 0:
+        if link_len < 199:
+            api_sel= 1
+            api_r = 0
+        elif link_len > max_link:
+            api_sel=len(api)
+            api_r=0
+        else:
+            api_sel = int(link_len/199)
+            if link_len%199 != 0:
+                api_r = 1
+            else:
+                api_r = 0
     for n in range(0,len(api_list)):
         params = {
                 "api_key": api_list[n],
@@ -680,22 +751,11 @@ def run_data_pp():
         if ready == True:
             api.append(api_list[n])
             pt.append(pt_list_pp[n])
-    link= request.form['link_pp']
-    link1=link.split()
-    link_len=len(link1)
+        if len(api) == (api_sel+api_r):
+            break
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
-    max_link = len(api)*199
-    un_processing_link_numb=0
-    processing_link=[]
-    un_processing_link=[]
-    links199=[]
-    h=0
-    run_tok=""
-    res=""
-    link_temp=""
-    j="\",\""
     if link_len != 0:
         if link_len < 199:
             api_sel= 1
@@ -894,20 +954,25 @@ def get_data_pl():
                 if 'selection1' in (y['details'][n]):
                     for nn in range (0,len(y['details'][n]['selection1'])):
                         if ("name" in y['details'][n]['selection1'][nn]) and ("url" in y['details'][n]['selection1'][nn]):
-                            p_name.append(y['details'][n]['selection1'][nn]['name'])
-                            p_url.append(y['details'][n]['selection1'][nn]['url'])
+                            p_name=(y['details'][n]['selection1'][nn]['name'])
+                            p_url=(y['details'][n]['selection1'][nn]['url'])
                     for nn in range (0,len(y['details'][n]['selection1'])):
-                        ip_link.append(ip_url[n])
+                        ip_link=(ip_url[n])
                     for nn in range (0,len(y['details'][n]['selection1'])):
-                        run_token_sql.append(run_token[z])
+                        run_token_sql=(run_token[z])
                 else:
                     continue
-        p_len=len(p_name)        
-        for i in range(0,p_len):
-            v.append((p_name[i],p_url[i],run_token_sql[i],ip_link[i],r_name))
+            v=[]
+            v.append((p_name,p_url,run_token_sql,ip_link,r_name))
             sql = "INSERT INTO scrap_data (product_name,product_url,runt,ip_link,run_name) VALUES (%s, %s, %s, %s, %s)"
-            mycursor.execute(sql, v[i])
+            mycursor.execute(sql, v)
             mydb.commit()
+        sql = "SELECT product_name, product_url, ip_link FROM scrap_data WHERE run_name LIKE '%"+r_name+"%'"
+        adr = (r_name,)
+        mycursor.execute(sql)
+        store_var = mycursor.fetchall()
+        for t in store_var:
+            v.append((t[0],t[1],t[2]))
         def generate():
             data = StringIO()
             w = csv.writer(data)
@@ -919,7 +984,7 @@ def get_data_pl():
                 w.writerow((
                     item[0],
                     item[1],
-                    item[3]
+                    item[2]
                     ))
                 yield data.getvalue()
                 data.seek(0)
