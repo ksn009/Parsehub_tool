@@ -712,13 +712,13 @@ def run_data_pp():
     link1=link.split()
     link_len=len(link1)
 
-    if link_len < 199:
+    if link_len < 99:#100:
         ft= 1
-    elif link_len >5970 :
+    elif link_len > 2970: #5970 :
         ft=31
     else:
-        apl = int(link_len/199)
-        if link_len%199 != 0:
+        apl = int(link_len/99)#199)
+        if link_len%99 != 0:#199
             apr = 1
         else:
             apr = 0
@@ -747,7 +747,7 @@ def run_data_pp():
     r_name= request.form['r_name']
     if r_name == "":
         return "Error : Please Enter Valid Run Name"
-    max_link = len(api)*199
+    max_link = len(api)*99#199
     un_processing_link_numb=0
     processing_link=[]
     un_processing_link=[]
@@ -759,7 +759,7 @@ def run_data_pp():
     j="\",\""
 
     if link_len != 0:
-        if link_len < 199:
+        if link_len < 99:#199:
             api_sel= 1
             api_r = 0
             count_start=0
@@ -774,18 +774,18 @@ def run_data_pp():
             count_max=max_link
             count_start_sql=0
             count_max_sql=max_link
-            count_max_temp=199
+            count_max_temp=99#199
         else:
-            api_sel = int(link_len/199)
-            if link_len%199 != 0:
+            api_sel = int(link_len/99)#199)
+            if link_len%99 != 0:#199
                 api_r = 1
             else:
                 api_r = 0
             count_start = 0
             count_max=link_len
-            count_max_temp=199
+            count_max_temp=99#199
             count_start_sql = 0
-            count_max_sql=199
+            count_max_sql=99#199
         if link_len > max_link:
             for n in range(0,max_link):
                 processing_link.append(link1[n])
@@ -801,8 +801,8 @@ def run_data_pp():
                 for i in range(count_start,count_max_temp):
                     link_temp199.append(processing_link[i])
                 count_start=i+1
-                if (link_len-count_start) >= 199:
-                    count_max_temp = count_max_temp + 199
+                if (link_len-count_start) >= 99:#199:
+                    count_max_temp = count_max_temp + 99#199
                 else:
                     count_max_temp=link_len
                 link_temp=j.join(link_temp199)
@@ -823,8 +823,8 @@ def run_data_pp():
                         mycursor.execute(sql, v)
                         mydb.commit()
                     count_start_sql=s+1
-                    if (link_len-count_start_sql) > 199:
-                        count_max_sql=count_max_sql+199
+                    if (link_len-count_start_sql) > 99:#199:
+                        count_max_sql=count_max_sql+99#199
                     else:
                         count_max_sql=link_len
                     run_tok=run_tok+'<br>'+y['run_token']
@@ -864,8 +864,8 @@ def run_data_pp():
                 for i in range(count_start,count_max):
                     link_temp199.append(processing_link[i])
                 count_start=i+1
-                if (link_len-count_start) > 199:
-                    count_max_temp = count_max_temp+199
+                if (link_len-count_start) > 99:#199:
+                    count_max_temp = count_max_temp+99#199
                 else:
                     count_max_temp=link_len
                 link_temp=j.join(link_temp199)
@@ -886,8 +886,8 @@ def run_data_pp():
                         mycursor.execute(sql, v)
                         mydb.commit()
                     count_start_sql=s+1
-                    if (link_len-count_start_sql) > 199:
-                        count_max_sql=count_max_sql+199
+                    if (link_len-count_start_sql) > 99:#199:
+                        count_max_sql=count_max_sql+99#199
                     else:
                         count_max_sql=link_len
                     run_tok=run_tok+'<br>'+y['run_token']
@@ -967,7 +967,7 @@ def get_data_pl():
             v=[]
             v.append((p_name,p_url,run_token_sql,ip_link,r_name))
             sql = "INSERT INTO scrap_data (product_name,product_url,runt,ip_link,run_name) VALUES (%s, %s, %s, %s, %s)"
-            mycursor.execute(sql, v)
+            mycursor.executemany(sql, v)
             mydb.commit()
         sql = "SELECT product_name, product_url, ip_link FROM scrap_data WHERE run_name LIKE '%"+r_name+"%'"
         adr = (r_name,)
@@ -1233,10 +1233,17 @@ def get_data_bs():
                         ip_link.append(ip_url[i])
         p_len=len(name)
         for i in range(0,p_len):
+            v=[]
             v.append((name[i],url[i],review[i],Review_count[i],Price[i],Prime[i],ip_link[i],r_name))
             sql = "INSERT INTO scrap_bestseller (name,url,review,review_count,price,prime,ip_link,run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            mycursor.execute(sql, v[i])
+            mycursor.executemany(sql, v)
             mydb.commit()
+        sql = "SELECT name, url, review, review_count, price, prime, ip_link FROM scrap_bestseller WHERE run_name LIKE '%"+r_name+"%'"
+        adr = (r_name,)
+        mycursor.execute(sql)
+        store_var = mycursor.fetchall()
+        for t in store_var:
+            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6]))
         def generate():
             data = StringIO()
             w = csv.writer(data)
@@ -1305,7 +1312,7 @@ def get_data_pp():
 
     t_store=[]
     mycursor = mydb.cursor()
-    mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),p_rating VARCHAR(250),p_rev_count VARCHAR(100),pn_mrp VARCHAR(50), pn_price VARCHAR(50),pn_you_save VARCHAR(75),seller_name VARCHAR(100),img_count VARCHAR(25),keypt_count VARCHAR(25),description VARCHAR(900),ss_ASIN VARCHAR(50),ss_bsr VARCHAR(50),ss_bsr_cat VARCHAR(500),ss_dfa VARCHAR(50),a_prime VARCHAR(10),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
+    mycursor.execute("CREATE TABLE IF NOT EXISTS scrap_data_p3 (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(800),brand VARCHAR(800),p_rating VARCHAR(250),p_rev_count VARCHAR(100),pn_mrp VARCHAR(50), pn_price VARCHAR(50),pn_you_save VARCHAR(75),seller_name VARCHAR(100),img_count VARCHAR(25),keypt_count VARCHAR(25),description VARCHAR(900),ss_ASIN VARCHAR(50),k_word VARCHAR(150),pos VARCHAR(10),ss_bsr VARCHAR(50),ss_bsr_cat VARCHAR(500),ss_dfa VARCHAR(50),a_prime VARCHAR(10),1_star VARCHAR(10),2_star VARCHAR(10),3_star VARCHAR(10),4_star VARCHAR(10),5_star VARCHAR(10),ip_url VARCHAR(800),run_token  VARCHAR(100),run_name VARCHAR(50))")
     r_name = request.form['runt_drop']
     #r_name="test"
     sql = "SELECT DISTINCT runt FROM input_data_p3 WHERE run_name = %s"
@@ -1351,7 +1358,8 @@ def get_data_pp():
                 if 'title' in y["list1"][i]:
                     title=y["list1"][i]["title"]
                 else:
-                    page_not_found.append(y["list1"][i]['page'])
+                    if 'page' in y['list1'][i]:
+                        page_not_found.append(y["list1"][i]['page'])
                     title=""
                 if 'brand_name' in y["list1"][i]:
                     brand=y["list1"][i]['brand_name']
@@ -1443,10 +1451,22 @@ def get_data_pp():
                 else:
                     rating = ["","","","",""]
                     
+                pros=ip_url[i_link]
+                if "keywords=" in pros:
+                    k_word=pros.split('keywords=')
+                    k_word=k_word[1]
+                    k_word=k_word.split('&')
+                    if '+' in k_word[0]:
+                        k_word=k_word[0].replace("+", " ")
+                if 'ref=sr_1_' in pros:
+                    pos=pros.split('ref=sr_1_')
+                    pos=pos[1]
+                    pos=pos.split('?')
+                    pos=pos[0]
                 if title !="" :
                     v=[]
-                    v.append((title ,brand ,p_rating ,rating_count ,pn_mrp ,pn_price ,pn_you_save ,buy_box ,img_count ,keypoints_count ,description ,ss_ASIN ,ss_bsr ,catagory ,ss_dfa ,a_prime ,rating[0],rating[1],rating[2],rating[3],rating[4], ip_url[i_link] , run_token[ap], r_name))
-                    sql = "INSERT INTO scrap_data_p3 (title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url ,run_token ,run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    v.append((title ,brand ,p_rating ,rating_count ,pn_mrp ,pn_price ,pn_you_save ,buy_box ,img_count ,keypoints_count ,description ,ss_ASIN ,k_word ,pos ,ss_bsr ,catagory ,ss_dfa ,a_prime ,rating[0],rating[1],rating[2],rating[3],rating[4], ip_url[i_link] , run_token[ap], r_name))
+                    sql = "INSERT INTO scrap_data_p3 (title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN , k_word ,pos ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url ,run_token ,run_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     mycursor.executemany(sql, v)
                     mydb.commit()
 
@@ -1488,17 +1508,17 @@ def get_data_pp():
         response.headers.set("Content-Disposition", "attachment", filename=now1)
         return response'''
     else:
-        sql = "SELECT title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url FROM scrap_data_p3 WHERE run_name LIKE '%"+r_name+"%'"
+        sql = "SELECT title ,brand ,p_rating ,p_rev_count ,pn_mrp ,pn_price ,pn_you_save ,seller_name ,img_count ,keypt_count ,description ,ss_ASIN ,k_word ,pos ,ss_bsr ,ss_bsr_cat ,ss_dfa ,a_prime ,1_star ,2_star ,3_star ,4_star ,5_star ,ip_url FROM scrap_data_p3 WHERE run_name LIKE '%"+r_name+"%'"
         adr = (r_name,)
         mycursor.execute(sql)
         store_var = mycursor.fetchall()
         for t in store_var:
-            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12],t[13],t[14],t[15],t[16],t[17],t[18],t[19],t[20],t[21]))
+            v.append((t[0],t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],t[9],t[10],t[11],t[12],t[13],t[14],t[15],t[16],t[17],t[18],t[19],t[20],t[21],t[22],t[23]))
         def generate():
             data = StringIO()
             w = csv.writer(data)
             w.writerow(('Title','Brand','Rating','Rating_count','MRP','Price','Discount','Buy_box','Image_count','Keypoints_count',
-                        'Description','ASIN','Bsr_rank','Bsr_cat','Date_First_Available','Prime','1_star','2_star','3_star','4_star',
+                        'Description','ASIN','Keyword','Position','Bsr_rank','Bsr_cat','Date_First_Available','Prime','1_star','2_star','3_star','4_star',
                         '5_star',"Ip_url"))
             yield data.getvalue()
             data.seek(0)
@@ -1507,7 +1527,7 @@ def get_data_pp():
                 w.writerow((
                     item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8],
                     item[9],item[10],item[11],item[12],item[13],item[14],item[15],item[16],
-                    item[17],item[18],item[19],item[20],item[21]
+                    item[17],item[18],item[19],item[20],item[21],item[22],item[23]
                     ))
                 yield data.getvalue()
                 data.seek(0)
